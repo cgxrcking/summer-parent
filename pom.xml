@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.cgx.summer</groupId>
+	<artifactId>summer-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>版本控制</name>
+	<description>版本控制</description>
+
+	<properties>
+		<!-- 公共参数配置1 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<warExplodedDirectory>target</warExplodedDirectory>
+		<!-- 基础配置 -->
+		<jdk.version>1.7</jdk.version>
+		<project.encode>UTF-8</project.encode>
+		<!-- maven插件版本 -->
+		<maven.compiler.version>3.1</maven.compiler.version>
+		<maven.resources.plugin.version>2.4</maven.resources.plugin.version>
+		<maven.shade.plugin.version>2.0</maven.shade.plugin.version>
+		<maven.clean.plugin.version>2.6.1</maven.clean.plugin.version>
+		<maven.findbugs.plugin.version>3.0.3</maven.findbugs.plugin.version>
+		<maven.surefire.plugin.version>2.19.1</maven.surefire.plugin.version>
+
+		<maven.javadoc.plugin.version>2.10.3</maven.javadoc.plugin.version>
+
+		<!-- 开源版本配置 -->
+		<spring-version>4.0.5.RELEASE</spring-version>
+		<mysql-version>5.1.20</mysql-version>
+		<junit-version>4.12</junit-version>
+		<log4j-version>1.2.17</log4j-version>
+		<servlet-api-version>3.1.0</servlet-api-version>
+		<httpclient-version>4.1.2</httpclient-version>
+		<httpmime-version>4.1.2</httpmime-version>
+		<gson-version>2.2.4</gson-version>
+		
+		<!-- 工具类及应用版本控制 -->
+		<summer-common>1.0.0</summer-common>
+		
+	</properties>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- 单元测试 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.plugin.version}</version>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+				<!-- maven编译插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.version}</version>
+					<configuration>
+						<source>${jdk.version}</source>
+						<target>${jdk.version}</target>
+						<encoding>${project.encode}</encoding>
+					</configuration>
+				</plugin>
+				<!-- mavn打包源代码插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven.resources.plugin.version}</version>
+					<configuration>
+						<encoding>${project.encode}</encoding>
+					</configuration>
+				</plugin>
+				<!-- maven清理插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven.clean.plugin.version}</version>
+					<configuration>
+						<filesets>
+							<fileset>
+								<directory>target</directory>
+							</fileset>
+						</filesets>
+					</configuration>
+				</plugin>
+
+				<!-- maven打可执行jar文件插件 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>${maven.shade.plugin.version}</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>shade</goal>
+							</goals>
+							<configuration>
+								<transformers>
+									<transformer
+										implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+										<resource>META-INF/spring.handlers</resource>
+									</transformer>
+									<transformer
+										implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+										<resource>META-INF/spring.schemas</resource>
+									</transformer>
+									<transformer
+										implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+										<mainClass>com.gooagoo.container.Main</mainClass>
+									</transformer>
+								</transformers>
+								<shadedArtifactAttached>false</shadedArtifactAttached>
+								<shadedClassifierName>executable</shadedClassifierName>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
